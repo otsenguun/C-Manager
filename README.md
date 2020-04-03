@@ -78,11 +78,11 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Installing guide / Заавар /
-composer суулга
-composer update комманд ажилуул
-env.example-ыг env болгоод DB ээ тохируул
-php artisan migrate
-php artisan db:seed
+composer суулга <br>
+composer update комманд ажилуул <br>
+env.example-ыг env болгоод DB ээ тохируул<br>
+php artisan migrate <br>
+php artisan db:seed<br>
 php artisan serve -host=hostname -port=portname
 
 
