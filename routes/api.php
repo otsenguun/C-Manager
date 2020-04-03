@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 Route::post('login', 'CustomerController@login');
 Route::post('register', 'CustomerController@register');
 
+
+
+
 Route::group(['middleware' => 'auth:api'], function(){
     Route::post('details', 'CustomerController@details');
+
+    Route::get('contrack','ContrackController@index');
+	// Route::resource('Product', 'ProductController');
 });

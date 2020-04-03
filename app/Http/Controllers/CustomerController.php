@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Auth; 
 use Validator;
+use Illuminate\Support\Facades\Hash;
 class CustomerController extends Controller
 {
     /**
@@ -36,7 +37,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -109,23 +110,38 @@ class CustomerController extends Controller
     { 
         $validator = Validator::make($request->all(), [ 
             'name' => 'required', 
-            'email' => 'required|email', 
+            'email' => 'required|email|unique:users', 
             'password' => 'required', 
             'c_password' => 'required|same:password', 
         ]);
         if ($validator->fails()) { 
                     return response()->json(['error'=>$validator->errors()], 401);            
                 }
+
                 $input = $request->all(); 
-                $input['password'] = bcrypt($input['password']); 
-                
+
+                // $check_user = 
+
+
+                // $input['email'];
+
+
                 $user = new User; 
                 $user->name  = $input['name'];
                 $user->email  = $input['email'];
-                $user->password  = bcrypt($input['password']); 
+                $user->password  = Hash::make($input['password']); 
                 $user->type  =  1;
-                $user->exprire  =  date('Y-m-d');
+                $user->expire  =  date('Y-m-d');
                 $user->save();
+
+                //  $user = User::create([
+                //     'name' => $input['name'],
+                //     'email' => $input['email'],
+                //     'password' => Hash::make($input['password']),
+                //     'expire' => date('Y-m-d'),
+                //     'type' => 1,
+                // ]);
+
                 $success['token'] =  $user->createToken('MyApp')-> accessToken; 
                 $success['name'] =  $user->name;
         return response()->json(['success'=>$success], $this-> successStatus); 
