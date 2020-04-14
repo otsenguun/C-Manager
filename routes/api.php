@@ -28,5 +28,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('details', 'CustomerController@details');
 
     Route::get('contrack','ContrackController@index');
+
+    Route::post('contrack/store','ContrackController@store');
 	// Route::resource('Product', 'ProductController');
 });

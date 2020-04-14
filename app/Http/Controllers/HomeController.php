@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\User;
+use App\Contrack;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $users = User::get();
+        $contracks = Contrack::get();
+
+        return view('welcome',compact('users','contracks'));
     }
 }

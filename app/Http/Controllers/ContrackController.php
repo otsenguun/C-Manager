@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth; 
+use App\Contrack;
 class ContrackController extends Controller
 {
     /**
@@ -14,10 +15,28 @@ class ContrackController extends Controller
     public function index()
     {
 
-            $data = [
-                1 => 100,
-                2 => 150,
-            ];
+
+        $user = Auth::user(); 
+
+        $contracks = Contrack::where('user_id',$user->id)->get();
+
+            $data = [];
+
+                foreach ($contracks as $contrack) {
+
+                    $object = new \stdClass;
+                    $object->name = $contrack->contrack_number;
+                    $object->value = $contrack->false_amount;
+
+                    $data[] = $object;
+                    
+                 };
+
+           
+
+           
+
+
          return response()->json(['status'=>'success','data' =>$data], 200);
     }
 
@@ -39,20 +58,24 @@ class ContrackController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $user = Auth::user(); 
 
         $contrack = new Contrack;
         $contrack->user_id = $user->id;
-        $contrack->contrack_number = $request->contrack_number;
-        $contrack->fuel = $request->fuel;
-        $contrack->false_amount = $request->false_amount;
-        $contrack->driver_salary = $request->driver_salary;
-        $contrack->road_amount = $request->road_amount;
-        $contrack->company_discover = $request->company_discover;
-        $contrack->yon_mount = $request->yon_mount;
-        $contrack->part_discoin = $request->part_discoin;
-        $contrack->fix_discoin = $request->fix_discoin;
-        $contrack->othen_discoin = $request->othen_discoin;
+        $contrack->contrack_number = $request->name;
+        $contrack->false_amount = $request->value;
+        // $contrack->contrack_number = $request->contrack_number;
+        // $contrack->fuel = $request->fuel;
+        // $contrack->false_amount = $request->false_amount;
+        // $contrack->driver_salary = $request->driver_salary;
+        // $contrack->road_amount = $request->road_amount;
+        // $contrack->company_discover = $request->company_discover;
+        // $contrack->yon_mount = $request->yon_mount;
+        // $contrack->part_discoin = $request->part_discoin;
+        // $contrack->fix_discoin = $request->fix_discoin;
+        // $contrack->othen_discoin = $request->othen_discoin;
         $contrack->save();
 
         return response()->json(['status'=>'success','data'=>$contrack], 200);
